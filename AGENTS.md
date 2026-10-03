@@ -31,7 +31,7 @@ The site and the repo must never contain:
 2. Server IP addresses, server usernames, home paths, hostnames, API keys, tokens or passwords.
 3. The salon's business name, bot usernames (except the public `@Ball_khmerbot`), user or member
    counts, customer data.
-4. Trading P&L, position sizes, account balances or trading thresholds.
+4. Trading profit or loss, position sizes, account balances or trading thresholds.
 
 `npm run check` scans for these patterns. Private words go in `.private-denylist` (git-ignored, one per
 line), so the scan can look for them without publishing them.
