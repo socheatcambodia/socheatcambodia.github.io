@@ -18,8 +18,10 @@
   --f-mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --f-khmer: "Noto Sans Khmer Variable", "Khmer OS", "Khmer UI", sans-serif;
 }
+/* Dark colours: used when the device is in dark mode (unless the visitor chose light with the switch),
+   or when the visitor chose dark. The two blocks must stay identical. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0E1117;
     --paper: #161B24;
     --ink: #E7EAF0;
@@ -33,6 +35,21 @@
     --fail: #F2857A; --fail-bg: #3D1814;
   }
 }
+:root[data-theme="dark"] {
+  --bg: #0E1117;
+  --paper: #161B24;
+  --ink: #E7EAF0;
+  --muted: #9AA4B5;
+  --line: #2A3140;
+  --accent: #8EA2FF;
+  --accent-soft: #1E2747;
+  --on-accent: #0E1117;
+  --pass: #5CC98A; --pass-bg: #12301F;
+  --cond: #E4B45A; --cond-bg: #3A2C0E;
+  --fail: #F2857A; --fail-bg: #3D1814;
+}
+:root[data-theme="light"] { color-scheme: light }
+:root[data-theme="dark"] { color-scheme: dark }
 
 *, *::before, *::after { box-sizing: border-box }
 html { background: var(--bg); scroll-behavior: smooth; scroll-padding-top: 16px }
@@ -49,11 +66,18 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-
 .sheet { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding-inline: clamp(20px, 5vw, 64px); padding-block: clamp(28px, 5vw, 60px); display: flex; flex-direction: column; gap: 56px }
 
 /* site menu */
-.nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; font-size: .95rem }
+.nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; font-size: .95rem }
 .nav .home { font-family: var(--f-display); font-stretch: 112%; font-weight: 720; color: var(--ink); text-decoration: none }
 .nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: row; flex-wrap: wrap; gap: 4px 18px }
 .nav ul a { color: var(--muted); text-decoration: none }
 .nav ul a:hover { color: var(--accent) }
+.nav ul { align-items: center; margin-left: auto }
+.theme-toggle { display: inline-grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--muted); cursor: pointer }
+.theme-toggle[hidden] { display: none }
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent) }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px }
+.theme-toggle .icon-moon, .theme-toggle[data-next="light"] .icon-sun { display: block }
+.theme-toggle .icon-sun, .theme-toggle[data-next="light"] .icon-moon { display: none }
 
 h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; color: var(--ink) }
 h1 { font-size: clamp(2.2rem, 5.5vw, 3rem); font-stretch: 116%; font-weight: 760; line-height: 1.05; letter-spacing: -.01em }
@@ -187,6 +211,9 @@ td:last-child { font-weight: 600; white-space: nowrap }
   .jobs li { grid-template-columns: 1fr }
   .skills div { grid-template-columns: 1fr }
   .reach dl { grid-template-columns: 1fr; gap: 0 }
+  /* phone menu: name and light/dark switch on the first row, links below */
+  .nav .theme-toggle { order: 1; margin-left: auto }
+  .nav ul { order: 2; flex-basis: 100%; margin-left: 0 }
   /* research table: one card per row, so the Result column is never hidden off-screen */
   .table-wrap { overflow: visible }
   table, tbody, tr, td { display: block; min-width: 0 }
@@ -202,7 +229,8 @@ td:last-child { font-weight: 600; white-space: nowrap }
 
 @page { size: A4; margin: 14mm 13mm }
 @media print {
-  :root {
+  /* Always print light, whatever the device setting or the switch says. */
+  :root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
     color-scheme: light;
     --bg: #F4F5F8; --paper: #FFFFFF; --ink: #121826; --muted: #556074; --line: #DADFE7;
     --accent: #2B44C7; --accent-soft: #E8ECFB;
