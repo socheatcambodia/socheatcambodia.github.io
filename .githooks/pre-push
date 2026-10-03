@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Runs every check before anything leaves this computer. GitHub runs the same checks, but only after the
+# push, when the commit is already public. Turn on once per clone: git config core.hooksPath .githooks
+set -euo pipefail
+if ! command -v npm >/dev/null 2>&1 && [ -s "$HOME/.nvm/nvm.sh" ]; then
+  # shellcheck disable=SC1091
+  . "$HOME/.nvm/nvm.sh"
+fi
+echo "pre-push: running npm run verify (type check, tests, build, site check)"
+npm run verify --silent

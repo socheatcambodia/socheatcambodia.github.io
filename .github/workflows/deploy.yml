@@ -1,0 +1,60 @@
+# Builds the site, runs every check, and publishes it to GitHub Pages.
+# Pull requests only build and check. A push to main also publishes.
+name: Build, check and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ASTRO_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Type check
+        run: npm run typecheck
+      - name: Test the site checker
+        run: npm test
+      - name: Build
+        run: npm run build
+      # The private words live in an encrypted repository secret, never in the code.
+      # The check fails if the secret is missing (CI=true makes it required).
+      - name: Load private word list
+        env:
+          PRIVATE_DENYLIST: ${{ secrets.PRIVATE_DENYLIST }}
+        run: printf '%s\n' "$PRIVATE_DENYLIST" > .private-denylist
+      - name: Check pages, links and privacy
+        run: npm run check
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

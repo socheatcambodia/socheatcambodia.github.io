@@ -1,0 +1,202 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+import { inline } from '../lib/inline';
+import {
+  summary, stats, steps, rails, ledger, ledgerNote, research, jobs, education, languages, skills,
+} from '../data/resume';
+
+const work = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const mailto = `mailto:${site.email}`;
+---
+
+<Base>
+  <header class="top">
+    <p class="label">Portfolio · Updated {site.updated}</p>
+    <h1>{site.name}</h1>
+    <p class="role">{site.role}</p>
+    <p class="contact">
+      <span>{site.location}</span>
+      <a href={mailto}>{site.email}</a>
+      <a href={site.linkedin}>{site.linkedinLabel}</a>
+    </p>
+    <div class="actions">
+      <a class="btn primary" href={mailto}>Email me</a>
+      <a class="btn" href={site.linkedin}>LinkedIn</a>
+      <a class="btn" href={site.cv}>Download CV (PDF)</a>
+    </div>
+  </header>
+
+  <section aria-label="Summary">
+    <div class="summary">
+      {summary.map((p) => <p set:html={inline(p)} />)}
+    </div>
+    <div class="stats">
+      {stats.map((s) => <div class="stat"><b>{s.value}</b><span>{s.label}</span></div>)}
+    </div>
+  </section>
+
+  <section id="how" aria-labelledby="how-title">
+    <div class="sec-head">
+      <p class="label">How I work</p>
+      <h2 id="how-title">One AI builds, another AI audits, and I stay in charge</h2>
+      <p>Every change starts as a written plan and passes two independent checks before it reaches real users.</p>
+    </div>
+
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class={s.who === 'Me' ? 'me' : undefined}>
+          <span class="n">{i + 1}</span>
+          <p>
+            <b>{s.title}</b><span class="who">{s.who}</span><br />
+            {s.text}
+            {s.verdicts && (
+              <Fragment>
+                {' '}<span class="v pass">PASS</span> <span class="v cond">PASS WITH CONDITIONS</span> or <span class="nowrap"><span class="v fail">FAIL</span>.</span>
+              </Fragment>
+            )}
+          </p>
+        </li>
+      ))}
+    </ol>
+
+    <ul class="rails">
+      {rails.map((r) => <li><b>{r.title}</b><span>{r.text}</span></li>)}
+    </ul>
+
+    <div class="box">
+      <p class="label">Real examples from the review record</p>
+      <ul class="ledger">
+        {ledger.map((l) => (
+          <li>
+            <span class="what"><span class="v fail">FAIL</span> {l.what}</span>
+            <span class="why">{l.why}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="muted">{ledgerNote}</p>
+    </div>
+  </section>
+
+  <section id="work" aria-labelledby="work-title">
+    <div class="sec-head">
+      <p class="label">Selected work</p>
+      <h2 id="work-title">Five systems, all running today</h2>
+    </div>
+
+    {work.map(({ id, data }) => (
+      <article class="project" id={id} aria-labelledby={`${id}-title`}>
+        <div class="ptitle">
+          <h3 id={`${id}-title`}>{data.title}</h3>
+          {data.khmer && <span class="lang"><span class="km" lang="km">ខ្មែរ</span> · EN</span>}
+        </div>
+        <p class="meta">
+          <span class="live">{data.status}</span>
+          <span><b>{data.period}</b>{data.periodNote && `, ${data.periodNote}`}</span>
+          <span>{data.numbers}</span>
+        </p>
+        <p set:html={inline(data.summary)} />
+        <ul>
+          {data.highlights.map((h) => <li><b>{h.lead}</b> <Fragment set:html={inline(h.text)} /></li>)}
+        </ul>
+        {data.hardest && (
+          <div class="hard">
+            <p class="label">Hardest problem</p>
+            <p set:html={inline(data.hardest)} />
+          </div>
+        )}
+        <p class="stack"><b>Tech:</b> {data.tech.join(', ')}</p>
+      </article>
+    ))}
+  </section>
+
+  <section id="test" aria-labelledby="test-title">
+    <div class="sec-head">
+      <p class="label">How I test ideas</p>
+      <h2 id="test-title">Plan the test first, keep the “no” answers</h2>
+      <p>Before changing a live system I write down the test in advance: what I expect, how I’ll measure it, and what result would prove me wrong. Most answers were “no”, and keeping them stopped bad changes from going live.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Question</th><th scope="col">Method</th><th scope="col">Result</th></tr></thead>
+        <tbody>
+          {research.map((r) => <tr><td data-label="Question">{r.question}</td><td data-label="Method">{r.method}</td><td data-label="Result">{r.result}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="experience" aria-labelledby="experience-title">
+    <div class="sec-head">
+      <p class="label">Experience</p>
+      <h2 id="experience-title">Business roles before building with AI</h2>
+    </div>
+    <ul class="jobs">
+      {jobs.map((j) => (
+        <li>
+          <span class="when">{j.when}</span>
+          <div class="job"><p class="t">{j.title}</p><p class="c">{j.org}</p><p>{j.text}</p></div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section aria-label="Education and languages">
+    <div class="two">
+      <div class="sec-head">
+        <p class="label">Education</p>
+        <h2>Degrees and training</h2>
+        <ul class="edu">
+          {education.map((e) => <li><span class="t">{e.title}</span><span class="c">{e.where}</span></li>)}
+        </ul>
+      </div>
+      <div class="sec-head">
+        <p class="label">Languages</p>
+        <h2>I work in English</h2>
+        <ul class="edu">
+          {languages.map((l) => (
+            <li>
+              <span class="t">{l.name}{l.native && <Fragment> <span class="km" lang="km">({l.native})</span></Fragment>}</span>
+              <span class="c">{l.level}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" aria-labelledby="skills-title">
+    <div class="sec-head">
+      <p class="label">Skills</p>
+      <h2 id="skills-title">What I work with</h2>
+    </div>
+    <dl class="skills">
+      {skills.map((s) => <div><dt>{s.area}</dt><dd>{s.items}</dd></div>)}
+    </dl>
+  </section>
+
+  <aside class="note" aria-label="About the code">
+    <p class="label">About the code</p>
+    <p>My code repositories are private because they hold live trading systems and client data. I’m happy to walk you through any project on a screen share, including the plans, audit results, tests and deploy history. You can also try the Ball Khmer bot live in Telegram at <a href="https://t.me/Ball_khmerbot">@Ball_khmerbot</a>.</p>
+    <p>This website is public: <a href={site.repo}>its source code</a> was built by Claude Code and audited by Codex with the same loop described above.</p>
+  </aside>
+
+  <section id="contact" class="reach" aria-labelledby="contact-title">
+    <div class="sec-head">
+      <p class="label">Contact</p>
+      <h2 id="contact-title">Let’s talk</h2>
+    </div>
+    <p class="lead">I’m open to AI Engineer roles, and to working with businesses that want AI to take real work off their team. Email is the fastest way to reach me.</p>
+    <dl>
+      <dt>Email</dt><dd><a href={mailto}>{site.email}</a></dd>
+      <dt>LinkedIn</dt><dd><a href={site.linkedin}>{site.linkedinLabel}</a></dd>
+      <dt>GitHub</dt><dd><a href={site.github}>{site.githubLabel}</a></dd>
+      <dt>Based in</dt><dd>{site.location} ({site.timezone})</dd>
+    </dl>
+    <div class="actions">
+      <a class="btn primary" href={mailto}>Email me</a>
+      <a class="btn" href={site.cv}>Download CV (PDF)</a>
+    </div>
+  </section>
+</Base>

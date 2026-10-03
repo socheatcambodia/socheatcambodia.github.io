@@ -1,0 +1,78 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/source-sans-3';
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/noto-sans-khmer';
+import '../styles/global.css';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title = `${site.name} · AI Engineer`, description = site.description, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.png', Astro.site);
+
+// Tells search engines who this site is about. No phone or email here on purpose.
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: 'AI Engineer',
+  url: Astro.site?.href,
+  address: { '@type': 'PostalAddress', addressLocality: 'Siem Reap', addressCountry: 'KH' },
+  sameAs: [site.linkedin, site.github],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name}, ${site.role}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="page">
+      <nav class="nav" aria-label="Site">
+        <a class="home" href="/">{site.name}</a>
+        <ul>
+          <li><a href="/#work">Work</a></li>
+          <li><a href="/#how">How I work</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/#contact">Contact</a></li>
+          <li><a href={site.cv}>CV (PDF)</a></li>
+        </ul>
+      </nav>
+      <main id="main" class="sheet">
+        <slot />
+      </main>
+      <footer class="foot">
+        <span>{site.name} · Updated {site.updated}</span>
+        <a href={site.repo}>Source code</a>
+      </footer>
+    </div>
+  </body>
+</html>

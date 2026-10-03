@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- Link-preview card (1200x630). Render with scripts/og/render.sh; output goes to public/og.png. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=JetBrains+Mono:wght@600&family=Source+Sans+3:wght@400;600&display=block">
+<style>
+  html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+  body{background:#F4F5F8;font-family:"Source Sans 3",Arial,sans-serif;color:#121826;display:flex}
+  .card{margin:36px;flex:1;background:#fff;border:1px solid #DADFE7;border-radius:16px;padding:56px 64px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:10px;background:#2B44C7}
+  .label{font-family:"JetBrains Mono",monospace;font-weight:600;font-size:20px;letter-spacing:.12em;text-transform:uppercase;color:#556074}
+  h1{font-family:Archivo,Arial,sans-serif;font-stretch:116%;font-weight:780;font-size:92px;line-height:1;margin:18px 0 14px;letter-spacing:-.01em}
+  .role{font-family:Archivo,Arial,sans-serif;font-stretch:112%;font-weight:620;font-size:34px;color:#2B44C7}
+  .line{font-size:28px;line-height:1.4;color:#334055;margin-top:22px;max-width:960px}
+  .stats{margin-top:auto;display:flex;gap:0;border-top:2px solid #121826;padding-top:20px}
+  .stat{flex:1;display:flex;flex-direction:column}
+  .stat b{font-family:Archivo,Arial,sans-serif;font-stretch:112%;font-weight:760;font-size:40px;line-height:1.1}
+  .stat span{font-size:21px;color:#556074}
+  .url{position:absolute;right:64px;top:56px;font-family:"JetBrains Mono",monospace;font-weight:600;font-size:20px;color:#2B44C7}
+</style>
+</head>
+<body>
+  <div class="card">
+    <span class="url">socheatcambodia.github.io</span>
+    <span class="label">Portfolio · Siem Reap, Cambodia</span>
+    <h1>Socheat Chea</h1>
+    <span class="role">AI Engineer · AI Training &amp; Business Automation</span>
+    <p class="line">I ship production software by directing Claude Code and Codex in a <span style="white-space:nowrap">builder–auditor</span> review loop.</p>
+    <div class="stats">
+      <div class="stat"><b>5</b><span>systems in production</span></div>
+      <div class="stat"><b>1,000+</b><span>commits</span></div>
+      <div class="stat"><b>6,500+</b><span>automated tests</span></div>
+      <div class="stat"><b>200+</b><span>AI audit verdicts</span></div>
+    </div>
+  </div>
+</body>
+</html>
