@@ -192,7 +192,7 @@ export function findProblems({ root, site, denylist, requireDenylist }) {
 }
 
 // ---- command line ---------------------------------------------------------------------------
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const root = process.cwd();
   const denylist = readDenylist(root);
   const result = findProblems({ root, site: readSite(root), denylist, requireDenylist: process.env.CI === 'true' });
