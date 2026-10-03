@@ -85,7 +85,7 @@ const mailto = `mailto:${site.email}`;
       <h2 id="work-title">Five systems, all running today</h2>
     </div>
 
-    {work.map(({ id, data }) => (
+    {work.map(({ id, data, body }) => (
       <article class="project" id={id} aria-labelledby={`${id}-title`}>
         <div class="ptitle">
           <h3 id={`${id}-title`}>{data.title}</h3>
@@ -107,6 +107,7 @@ const mailto = `mailto:${site.email}`;
           </div>
         )}
         <p class="stack"><b>Tech:</b> {data.tech.join(', ')}</p>
+        {body?.trim() && <p><a class="more" href={`/work/${id}/`}>Read the case study <span aria-hidden="true">→</span></a></p>}
       </article>
     ))}
   </section>

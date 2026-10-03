@@ -1,0 +1,47 @@
+---
+// One page per project that has a case study: the markdown body of its file in src/content/work/.
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+import { inline } from '../../lib/inline';
+
+export async function getStaticPaths() {
+  const work = (await getCollection('work')).filter((entry) => entry.body?.trim());
+  return work.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent(`About your ${data.title}`)}`;
+---
+
+<Base title={`${data.title} · Case study · ${site.name}`} description={data.summary}>
+  <article class="case" aria-labelledby="case-title">
+    <header class="case-top">
+      <p class="label"><a href={`/#${entry.id}`}>← All work</a> · Case study</p>
+      <h1 id="case-title">{data.title}</h1>
+      <p class="meta">
+        <span class="live">{data.status}</span>
+        <span><b>{data.period}</b>{data.periodNote && `, ${data.periodNote}`}</span>
+        <span>{data.numbers}</span>
+      </p>
+      <p class="case-lead" set:html={inline(data.summary)} />
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <p class="stack"><b>Tech:</b> {(data.caseTech ?? data.tech).join(', ')}</p>
+
+    <aside class="note" aria-label="Contact">
+      <p class="label">Questions about this project?</p>
+      <p>I’m happy to walk you through the code, the review record and the tests on a screen share.</p>
+      <div class="actions">
+        <a class="btn primary" href={mailto}>Email me</a>
+        <a class="btn" href={`/#${entry.id}`}>Back to all work</a>
+      </div>
+    </aside>
+  </article>
+</Base>
