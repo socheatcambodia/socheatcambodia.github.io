@@ -12,7 +12,7 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title = `${site.name} · AI Engineer`, description = site.description, noindex = false } = Astro.props;
+const { title = `${site.name} · AI Builder`, description = site.description, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/og.png', Astro.site);
 
@@ -21,7 +21,7 @@ const person = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: site.name,
-  jobTitle: 'AI Engineer',
+  jobTitle: 'AI Builder',
   url: Astro.site?.href,
   address: { '@type': 'PostalAddress', addressLocality: 'Siem Reap', addressCountry: 'KH' },
   sameAs: [site.linkedin, site.github],

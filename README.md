@@ -2,7 +2,7 @@
 
 The source code of my portfolio website: **https://socheatcambodia.github.io**
 
-I'm Socheat Chea, an AI Engineer in Siem Reap, Cambodia. I build production software by directing AI
+I'm Socheat Chea, an AI Builder in Siem Reap, Cambodia. I build production software by directing AI
 coding agents: Claude Code builds, Codex audits independently, and I write the specs, make the decisions
 and do every deploy. My other repositories are private because they hold live trading systems and client
 data. This one is public, so you can see the process for yourself.

@@ -2,11 +2,11 @@
 // Public website rule: no phone number in the HTML (it stays in the downloadable PDF only).
 export const site = {
   name: 'Socheat Chea',
-  role: 'AI Engineer · AI Training & Business Automation',
+  role: 'AI Builder',
   location: 'Siem Reap, Cambodia',
   timezone: 'UTC+7',
   description:
-    'Socheat Chea, AI Engineer. Five production systems built by directing Claude Code and Codex in a builder–auditor review loop, plus eight years of business experience.',
+    'Socheat Chea, AI Builder. Five production systems shipped with AI coding agents: one AI builds, another audits, and I stay in charge. Plus eight years of business experience.',
   email: 'socheatsac7@gmail.com',
   linkedin: 'https://www.linkedin.com/in/socheat-chea-6582a176/',
   linkedinLabel: 'linkedin.com/in/socheat-chea-6582a176',
