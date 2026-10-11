@@ -1,6 +1,6 @@
 ---
 title: 'K+ crypto trading platform'
-order: 1
+order: 2
 status: 'Live, real money'
 period: 'Mar–Sep 2026'
 numbers: '480 commits · ~111k lines · ~4,000 tests'

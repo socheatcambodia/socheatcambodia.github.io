@@ -1,6 +1,6 @@
 ---
 title: 'Salon loyalty bot'
-order: 3
+order: 4
 status: 'Live with customers'
 period: 'Aug–Sep 2026'
 periodNote: 'live within six weeks'

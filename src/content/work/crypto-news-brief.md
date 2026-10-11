@@ -1,6 +1,6 @@
 ---
 title: 'Crypto news brief'
-order: 5
+order: 6
 status: 'Live'
 period: 'Sep–Oct 2026'
 numbers: '37 commits · 283 tests'

@@ -1,6 +1,6 @@
 ---
 title: 'Ball Khmer football bot'
-order: 4
+order: 5
 status: 'Live'
 period: 'Feb–Aug 2026'
 numbers: '201 commits · 845 tests'

@@ -1,6 +1,6 @@
 ---
 title: 'LinkedIn content agent'
-order: 2
+order: 3
 status: 'Live, weekly'
 period: 'Sep 2026'
 periodNote: '10 days to launch'
